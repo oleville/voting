@@ -6,8 +6,13 @@ class User < ApplicationRecord
 	has_many :memberships
 	has_many :votes
 
+	validates :email, presence: true
+	validates :email, uniqueness: true
+
+	validates :name, presence: true
+
 	def self.from_omniauth(auth)
-		where(provider: auth.provider, uid: auth.uid, email: auth.info.email).first_or_initialize.tap do |user|
+		where(provider: auth.provider, uid: auth.uid).or(where(email: auth.info.email)).first_or_initialize.tap do |user|
       user.provider = auth.provider
       user.uid = auth.uid
 			user.name = auth.info.name
