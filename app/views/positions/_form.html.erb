@@ -1,0 +1,42 @@
+<%= form_with(model: position, local: true) do |form| %>
+  <% if position.errors.any? %>
+    <div id="error_explanation">
+      <h2><%= pluralize(position.errors.count, "error") %> prohibited this position from being saved:</h2>
+
+      <ul>
+      <% position.errors.full_messages.each do |message| %>
+        <li><%= message %></li>
+      <% end %>
+      </ul>
+    </div>
+  <% end %>
+
+  <div class="field">
+    <%= form.label :name %>
+    <%= form.text_field :name, id: :position_name %>
+  </div>
+
+  <div class="field">
+    <%= form.label :picture_url %>
+    <%= form.text_field :picture_url, id: :position_picture_url %>
+  </div>
+
+  <div class="field">
+    <%= form.label :description %>
+    <%= form.text_area :description, id: :position_description %>
+  </div>
+
+  <div class="field">
+    <%= form.label :election_id %>
+    <%= form.text_field :election_id, id: :position_election_id %>
+  </div>
+
+  <div class="field">
+    <%= form.label :position_id %>
+    <%= form.text_field :position_id, id: :position_position_id %>
+  </div>
+
+  <div class="actions">
+    <%= form.submit %>
+  </div>
+<% end %>

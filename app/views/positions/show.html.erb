@@ -1,0 +1,29 @@
+<p id="notice"><%= notice %></p>
+
+<p>
+  <strong>Name:</strong>
+  <%= @position.name %>
+</p>
+
+<p>
+  <strong>Picture url:</strong>
+  <%= @position.picture_url %>
+</p>
+
+<p>
+  <strong>Description:</strong>
+  <%= @position.description %>
+</p>
+
+<p>
+  <strong>Election:</strong>
+  <%= @position.election %>
+</p>
+
+<p>
+  <strong>Position:</strong>
+  <%= @position.position %>
+</p>
+
+<%= link_to 'Edit', edit_position_path(@position) %> |
+<%= link_to 'Back', positions_path %>
