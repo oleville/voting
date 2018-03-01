@@ -1,6 +1,5 @@
-<% currently_open = Election.currently_open_to(current_user) %>
-
 <% if current_user %>
+<% currently_open = Election.currently_open_to(current_user) %>
 
 <div class="home">
  	Signed in as <strong><%= current_user.name %></strong>!
