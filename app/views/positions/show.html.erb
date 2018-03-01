@@ -17,12 +17,7 @@
 
 <p>
   <strong>Election:</strong>
-  <%= @position.election %>
-</p>
-
-<p>
-  <strong>Position:</strong>
-  <%= @position.position %>
+  <%= @position.election.name %>
 </p>
 
 <%= link_to 'Edit', edit_position_path(@position) %> |

@@ -9,7 +9,6 @@
       <th>Picture url</th>
       <th>Description</th>
       <th>Election</th>
-      <th>Position</th>
       <th colspan="3"></th>
     </tr>
   </thead>
@@ -20,8 +19,7 @@
         <td><%= position.name %></td>
         <td><%= position.picture_url %></td>
         <td><%= position.description %></td>
-        <td><%= position.election %></td>
-        <td><%= position.position %></td>
+        <td><%= position.election.name %></td>
         <td><%= link_to 'Show', position %></td>
         <td><%= link_to 'Edit', edit_position_path(position) %></td>
         <td><%= link_to 'Destroy', position, method: :delete, data: { confirm: 'Are you sure?' } %></td>

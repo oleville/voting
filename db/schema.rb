@@ -10,18 +10,16 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301033902) do
+ActiveRecord::Schema.define(version: 20180301041555) do
 
   create_table "candidates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "picture_url"
     t.text "description"
     t.bigint "election_id"
-    t.bigint "position_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["election_id"], name: "index_candidates_on_election_id"
-    t.index ["position_id"], name: "index_candidates_on_position_id"
   end
 
   create_table "elections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -70,6 +68,7 @@ ActiveRecord::Schema.define(version: 20180301033902) do
     t.datetime "updated_at", null: false
     t.string "uid"
     t.string "provider"
+    t.boolean "admin"
   end
 
   create_table "votes", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -87,7 +86,6 @@ ActiveRecord::Schema.define(version: 20180301033902) do
   end
 
   add_foreign_key "candidates", "elections"
-  add_foreign_key "candidates", "positions"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
   add_foreign_key "positions", "elections"
