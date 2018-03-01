@@ -1,9 +1,4 @@
 Rails.application.routes.draw do
-  resources :ballots
-  get 'ballots/create'
-
-  get 'ballots/show'
-
   get 'auth/:provider/callback', to: 'sessions#create'
 	get 'auth/failure', to: redirect('/')
   get 'logout', to: 'sessions#destroy', as: 'logout'
@@ -11,6 +6,7 @@ Rails.application.routes.draw do
 	resources :sessions, only: [:create, :destroy]
 	resources :home, only: [:show]
 
+  resources :ballots
   resources :votes
   resources :positions
   resources :candidates
