@@ -1,4 +1,5 @@
 Rails.application.routes.draw do
+  resources :ballots
   get 'ballots/create'
 
   get 'ballots/show'

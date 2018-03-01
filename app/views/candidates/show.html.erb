@@ -17,12 +17,12 @@
 
 <p>
   <strong>Election:</strong>
-  <%= @candidate.election %>
+  <%= @candidate.election.name %>
 </p>
 
 <p>
   <strong>Position:</strong>
-  <%= @candidate.position %>
+  <%= @candidate.position.name %>
 </p>
 
 <%= link_to 'Edit', edit_candidate_path(@candidate) %> |

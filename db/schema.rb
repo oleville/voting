@@ -10,16 +10,27 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301041555) do
+ActiveRecord::Schema.define(version: 20180301062029) do
+
+  create_table "ballots", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
+    t.bigint "user_id"
+    t.bigint "election_id"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["election_id"], name: "index_ballots_on_election_id"
+    t.index ["user_id"], name: "index_ballots_on_user_id"
+  end
 
   create_table "candidates", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
     t.string "picture_url"
     t.text "description"
     t.bigint "election_id"
+    t.bigint "position_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["election_id"], name: "index_candidates_on_election_id"
+    t.index ["position_id"], name: "index_candidates_on_position_id"
   end
 
   create_table "elections", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -51,16 +62,13 @@ ActiveRecord::Schema.define(version: 20180301041555) do
     t.string "picture_url"
     t.text "description"
     t.bigint "election_id"
-    t.bigint "position_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["election_id"], name: "index_positions_on_election_id"
-    t.index ["position_id"], name: "index_positions_on_position_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.string "name"
-    t.string "username"
     t.string "email"
     t.string "auth_token", limit: 2048
     t.datetime "auth_token_expiration"
@@ -85,11 +93,13 @@ ActiveRecord::Schema.define(version: 20180301041555) do
     t.index ["user_id"], name: "index_votes_on_user_id"
   end
 
+  add_foreign_key "ballots", "elections"
+  add_foreign_key "ballots", "users"
   add_foreign_key "candidates", "elections"
+  add_foreign_key "candidates", "positions"
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
   add_foreign_key "positions", "elections"
-  add_foreign_key "positions", "positions"
   add_foreign_key "votes", "candidates"
   add_foreign_key "votes", "elections"
   add_foreign_key "votes", "positions"

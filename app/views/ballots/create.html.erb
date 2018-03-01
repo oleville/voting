@@ -1,6 +1,19 @@
-<h1>Ballots#create</h1>
-<p>Find me in app/views/ballots/create.html.erb</p>
+<% @elections.each do |election| %>
+<div class="election">
+	In the "<%= election.name %>" election:
 
-<% @positions.each do |position| %>
-<%= position.name %>
+	<% @positions.each do |position| %>
+	<div class="position">
+		For the "<%= position.name %>" position:
+
+		<% position.candidates.each do |candidate| %>
+		<div class="candidate-profile">
+			<%= candidate.name %>
+		</div>
+		<% end %>
+
+	</div>
+	<% end %>
+
+</div>
 <% end %>
