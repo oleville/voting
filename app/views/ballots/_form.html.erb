@@ -1,7 +1,9 @@
+<% user = current_user %>
+
 <%= form_with(model: ballot, local: true) do |form| %>
   <% if ballot.errors.any? %>
     <div id="error_explanation">
-      <h2><%= pluralize(ballot.errors.count, "error") %> prohibited this ballot from being saved:</h2>
+      <h2><%= pluralize(ballot.errors.count, "error") %> prohibited this ballot from being submitted:</h2>
 
       <ul>
       <% ballot.errors.full_messages.each do |message| %>
@@ -11,14 +13,12 @@
     </div>
   <% end %>
 
-  <%= form.hidden_field :user_id, value: current_user.id %>
+	<%= user.groups.map do |group| group.name end %>
 
-  <div class="field">
-    <%= form.label :election_id %>
-    <%= form.text_field :election_id, id: :ballot_election_id %>
-  </div>
+  <%= form.hidden_field :user_id, value: current_user.id %>
+	<%= form.hidden_field :election_id, value: params[:election_id] %>
 
   <div class="actions">
-    <%= form.submit %>
+    <%= form.submit "Submit" %>
   </div>
 <% end %>

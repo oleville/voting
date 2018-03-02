@@ -13,6 +13,10 @@ class Election < ApplicationRecord
 		end
 	end
 
+	def to_s
+		name
+	end
+
 	def is_open?
 		now = DateTime.now
 		start_time <= now && now < end_time

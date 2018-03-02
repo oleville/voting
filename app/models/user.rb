@@ -2,8 +2,8 @@ class User < ApplicationRecord
 	# Not sure if this should be has_many or has_one... we'll see.
 	# belongs_to :election
 
-	has_many :groups, through: :memberships
 	has_many :memberships
+	has_many :groups, through: :memberships
 	has_many :votes
 
 	validates :email, presence: true
@@ -21,6 +21,10 @@ class User < ApplicationRecord
       user.auth_token_expiration = Time.at(auth.credentials.expires_at)
       user.save!
     end
+	end
+
+	def to_s
+		name
 	end
 
 	def is_admin?
