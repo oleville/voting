@@ -1,0 +1,52 @@
+<% user = current_user %>
+
+<%= form_for @ballot do |form| %>
+<%= form.hidden_field :user_id, value: current_user.id %>
+<%= form.hidden_field :election_id, value: params[:election_id] %>
+
+<% if ballot.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(ballot.errors.count, "error") %> prohibited this ballot from being submitted:</h2>
+
+  <ul>
+    <% ballot.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
+
+<div class="election">
+	In the "<%= election = Election.find_by(params[:election_id]) || "current" %>" election:
+
+	<% user.visible_positions.each do |position| %>
+	<div class="position">
+		For the "<%= position.name %>" position:
+
+		<% position.candidates.each do |candidate| %>
+		<% count = position.candidates.count %>
+
+		<div class="candidate-profile">
+			<div class="candidate-name"><%= link_to candidate, candidate_url(candidate) %></div>
+			<div class="candidate-choice">
+				<%= form.fields_for :votes, @ballot.votes.build do |vote_form| %>
+				<%= vote_form.hidden_field :user_id, value: current_user.id %>
+				<%= vote_form.hidden_field :position_id, value: position.id %>
+				<%= vote_form.hidden_field :candidate_id, value: candidate.id %>
+
+				<%= vote_form.label :rank %>
+				<%= vote_form.select :rank, (0..count).map {|n| n == 0 ? nil : n }.map {|n| n.nil? ? [' ', n] : [ n.to_i, n ]} %>
+				<% end %>
+			</div>
+		</div>
+		<% end %>
+
+	</div>
+	<% end %>
+
+</div>
+
+<div class="actions">
+  <%= form.submit "Submit" %>
+</div>
+<% end %>

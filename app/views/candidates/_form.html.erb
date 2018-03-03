@@ -1,39 +1,44 @@
 <%= form_with(model: candidate, local: true) do |form| %>
-  <% if candidate.errors.any? %>
-    <div id="error_explanation">
-      <h2><%= pluralize(candidate.errors.count, "error") %> prohibited this candidate from being saved:</h2>
+<% if candidate.errors.any? %>
+<div id="error_explanation">
+  <h2><%= pluralize(candidate.errors.count, "error") %> prohibited this candidate from being saved:</h2>
 
-      <ul>
-      <% candidate.errors.full_messages.each do |message| %>
-        <li><%= message %></li>
-      <% end %>
-      </ul>
-    </div>
-  <% end %>
+  <ul>
+    <% candidate.errors.full_messages.each do |message| %>
+    <li><%= message %></li>
+    <% end %>
+  </ul>
+</div>
+<% end %>
 
-  <div class="field">
-    <%= form.label :name %>
-    <%= form.text_field :name, id: :candidate_name %>
-  </div>
+<div class="field">
+  <%= form.label :name %>
+  <%= form.text_field :name, id: :candidate_name %>
+</div>
 
-  <div class="field">
-    <%= form.label :picture_url %>
-    <%= form.text_field :picture_url, id: :candidate_picture_url %>
-  </div>
+<div class="field">
+  <%= form.label :picture_url %>
+  <%= form.text_field :picture_url, id: :candidate_picture_url %>
+</div>
 
-  <div class="field">
-    <%= form.label :description %>
-    <%= form.text_area :description, id: :candidate_description %>
-  </div>
+<div class="field">
+  <%= form.label :description %>
+  <%= form.text_area :description, id: :candidate_description %>
+</div>
 
-  <div class="field">
-    <%= form.label :election_id %>
-    <%= form.text_field :election_id, id: :candidate_election_id %>
-  </div>
+<div class="field">
+  <%= form.label :violations %>
+  <%= form.text_area :violations, id: :candidate_violations %>
+</div>
 
-  <div class="field">
-    <%= form.label :position_id %>
-    <%= form.text_field :position_id, id: :candidate_position_id %>
+<div class="field">
+  <%= form.label :election_id %>
+  <%= form.select :election_id, Election.all.collect{|e| [e.name, e.id]} %>
+</div>
+
+<div class="field">
+  <%= form.label :position_id %>
+  <%= form.select :position_id, Position.all.collect{|e| [e.name, e.id]} %>
   </div>
 
   <div class="actions">

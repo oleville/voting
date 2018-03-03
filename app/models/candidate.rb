@@ -1,4 +1,10 @@
 class Candidate < ApplicationRecord
-  belongs_to :election
-  belongs_to :position
+	has_many :votes, dependent: :destroy
+
+	belongs_to :election
+	belongs_to :position
+
+	def to_s
+		name
+	end
 end
