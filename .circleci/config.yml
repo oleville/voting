@@ -32,6 +32,9 @@ jobs:
       - checkout
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:HEAD
+      - run: |
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+          docker push docker.io/oleville/voting:HEAD
 
   deploy_branch:
     docker:
@@ -41,6 +44,9 @@ jobs:
       - checkout
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_BRANCH}
+      - run: |
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+          docker push docker.io/oleville/voting:${CIRCLE_BRANCH}
 
   deploy_tag:
     docker:
@@ -50,7 +56,9 @@ jobs:
       - checkout
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_TAG}
-
+      - run: |
+          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+          docker push docker.io/oleville/voting:${CIRCLE_TAG}
 workflows:
   version: 2
   build_and_deploy:
