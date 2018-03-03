@@ -48,7 +48,6 @@ test:
 #     url: <%= ENV['DATABASE_URL'] %>
 #
 production:
-  <<: *default
   database: oleville-voting_production
   username: oleville-voting
   password: <%= ENV['OLEVILLE-VOTING_DATABASE_PASSWORD'] %>
