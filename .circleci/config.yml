@@ -16,7 +16,7 @@ jobs:
       - run: |
           bundle install
       - save_cache:
-          key: gem-{{ arch }}-{{ checksum "Gemfile.lock" }}
+          key: gem-{{ arch }}-{{ checksum "Gemfile.lock" }}-{{ .Revision }}
           paths:
             - /usr/local/lib/ruby/gems/
       - run: |
