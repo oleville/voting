@@ -14,5 +14,6 @@ class ApplicationController < ActionController::Base
 		rescue
 			@current_user = nil
 		end
-  end
+	end
+
 end
