@@ -5,6 +5,7 @@ class BallotsController < ApplicationController
 	# GET /ballots.json
 	def index
 		require_admin!
+
 		@ballots = Ballot.all
 	end
 
