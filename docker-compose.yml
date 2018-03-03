@@ -1,0 +1,35 @@
+---
+version: '3'
+services:
+  db:
+    image: docker.io/mysql:5.7.21
+    restart: unless-stopped
+    networks:
+      - voting
+    environment:
+      - MYSQL_ROOT_PASSWORD
+      - MYSQL_HOST=db
+      - MYSQL_DATABASE
+    volumes:
+      - './data:/var/lib/mysql'
+
+  api:
+    image: oleville/voting:latest
+    depends_on: [ db ]
+    restart: unless-stopped
+    networks:
+      - voting
+    ports:
+      - 0.0.0.0:80:3000
+    environment:
+      - GOOGLE_CLIENT_ID
+      - GOOGLE_CLIENT_SECRET
+      - MYSQL_ROOT_PASSWORD
+      - RAILS_MAX_THREADS=4
+      - SECRET_KEY_BASE
+      - RAILS_ENV
+    volumes:
+      - './contrib:/srv/vote/contrib'
+
+networks:
+  voting:
