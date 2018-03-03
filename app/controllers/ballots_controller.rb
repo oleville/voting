@@ -63,14 +63,15 @@ class BallotsController < ApplicationController
     end
   end
 
-  private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_ballot
-      @ballot = Ballot.find(params[:id])
-    end
+	private
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def ballot_params
-      params.require(:ballot).permit(:user_id, :election_id)
-    end
+	# Use callbacks to share common setup or constraints between actions.
+	def set_ballot
+		@ballot = Ballot.find(params[:id])
+	end
+
+	# Never trust parameters from the scary internet, only allow the white list through.
+	def ballot_params
+		params.require(:ballot).permit(:user_id, :election_id, :votes_attributes => [:rank, :user_id, :ballot_id, :candidate_id, :position_id])
+	end
 end
