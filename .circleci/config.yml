@@ -45,7 +45,7 @@ jobs:
       - run:
           name: 'Build docker image'
           command: |
-            docker build -t oleville/voting:${CIRCLE_SHA1} .
+            docker build --cache-from="$(docker images -a -q --no-trunc)" -t oleville/voting:${CIRCLE_SHA1} .
       - run:
           name: 'Dump image to cachable .tar.gz file'
           command: |
@@ -62,7 +62,7 @@ jobs:
       - setup_remote_docker
       - restore_cache:
           keys:
-            - docker-{{ arch }}-{{ .Branch }}
+            - docker--{{ arch }}-{{ .Branch }}
       - run: |
           docker load -i image.tar.gz
       - run: |
@@ -78,7 +78,7 @@ jobs:
       - setup_remote_docker
       - restore_cache:
           keys:
-            - docker-{{ arch }}-{{ .Branch }}
+            - docker--{{ arch }}-{{ .Branch }}
       - run: |
           docker load -i image.tar.gz
       - run: |
@@ -94,7 +94,7 @@ jobs:
       - setup_remote_docker
       - restore_cache:
           keys:
-            - docker-{{ arch }}-{{ .Branch }}
+            - docker--{{ arch }}-{{ .Branch }}
       - run: |
           docker load -i image.tar.gz
       - run: |
