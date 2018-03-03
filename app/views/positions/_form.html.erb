@@ -26,6 +26,11 @@
     <%= form.select :election_id, Election.all.collect{|e| [ e.name, e.id ]} %>
   </div>
 
+  <div class="field">
+    <%= form.label :group_id %>
+    <%= form.select :group_id, Group.all.collect{|e| [ e.name, e.id ]}, include_blank: true %>
+  </div>
+
   <div class="actions">
     <%= form.submit %>
   </div>

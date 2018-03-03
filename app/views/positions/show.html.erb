@@ -12,7 +12,12 @@
 
 <p>
   <strong>Election:</strong>
-  <%= @position.election.name %>
+  <%= @position.election %>
+</p>
+
+<p>
+  <strong>Group:</strong>
+  <%= @position.group %>
 </p>
 
 <%= link_to 'Edit', edit_position_path(@position) %> |
