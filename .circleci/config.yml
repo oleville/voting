@@ -41,7 +41,7 @@ jobs:
           docker build -t oleville/voting:${CIRCLE_SHA1} .
           docker save oleville/voting:${CIRCLE_SHA1} -o image.tar
       - save_cache:
-          key: docker-{{ arch }}-{{ .Branch }}-{{ checksum image.tar }}
+          key: docker-{{ arch }}-{{ .Branch }}-{{ checksum "image.tar" }}
           paths:
             - image.tar
 
