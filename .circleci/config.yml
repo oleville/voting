@@ -10,9 +10,10 @@ jobs:
       - image: circleci/ruby:2.5.0-browsers
     steps:
       - checkout
-      - run:
-          - bundle install
-          - bundle exec rspec
+      - run: |
+          bundle install
+      - run: |
+          bundle exec rspec
 
   build:
     docker:
