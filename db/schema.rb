@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20180301224541) do
+ActiveRecord::Schema.define(version: 20180302224316) do
 
   create_table "ballots", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
     t.bigint "user_id"
@@ -29,6 +29,7 @@ ActiveRecord::Schema.define(version: 20180301224541) do
     t.bigint "position_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.text "violations"
     t.index ["election_id"], name: "index_candidates_on_election_id"
     t.index ["position_id"], name: "index_candidates_on_position_id"
   end
@@ -64,7 +65,9 @@ ActiveRecord::Schema.define(version: 20180301224541) do
     t.bigint "election_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.bigint "group_id"
     t.index ["election_id"], name: "index_positions_on_election_id"
+    t.index ["group_id"], name: "index_positions_on_group_id"
   end
 
   create_table "users", force: :cascade, options: "ENGINE=InnoDB DEFAULT CHARSET=utf8" do |t|
@@ -100,6 +103,7 @@ ActiveRecord::Schema.define(version: 20180301224541) do
   add_foreign_key "memberships", "groups"
   add_foreign_key "memberships", "users"
   add_foreign_key "positions", "elections"
+  add_foreign_key "positions", "groups"
   add_foreign_key "votes", "ballots"
   add_foreign_key "votes", "candidates"
   add_foreign_key "votes", "positions"
