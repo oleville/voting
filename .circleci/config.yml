@@ -24,13 +24,32 @@ jobs:
       - run: |
           docker build -t oleville/voting:${CIRCLE_SHA1} .
 
-  deploy:
+  deploy_HEAD:
     docker:
-      - image: docker:latest
+      - image: "docker:latest"
     steps:
       - setup_remote_docker
       - checkout
-      - run: echo "hello world"
+      - run: |
+          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:HEAD
+
+  deploy_branch:
+    docker:
+      - image: "docker:latest"
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: |
+          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_BRANCH}
+
+  deploy_tag:
+    docker:
+      - image: "docker:latest"
+    steps:
+      - setup_remote_docker
+      - checkout
+      - run: |
+          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_TAG}
 
 workflows:
   version: 2
@@ -39,12 +58,20 @@ workflows:
       - test
       - build:
           requires: [test]
-      - deploy:
+      - deploy_HEAD:
           requires: [build]
           filters:
             branches:
               only:
                 - master
+      - deploy_branch:
+          requires: [build]
+          filters:
+            branches:
+              ignore: [master]
+      - deploy_tag:
+          requires: [build]
+          filters:
             tags:
               only:
                 - /^v.*/
