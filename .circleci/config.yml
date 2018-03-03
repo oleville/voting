@@ -18,7 +18,7 @@ jobs:
       - save_cache:
           key: gem-{{ arch }}-{{ checksum "Gemfile.lock" }}
           paths:
-            - ~/.gem/
+            - /usr/local/lib/ruby/gems/
       - run: |
           bundle exec rspec
 
