@@ -44,7 +44,7 @@ class BallotsController < ApplicationController
 
 		respond_to do |format|
 			if @ballot.save
-				format.html { redirect_to @ballot, notice: 'Ballot was successfully created.' }
+				format.html { redirect_to root_path, notice: 'You have successfully voted.' }
 				format.json { render :show, status: :created, location: @ballot }
 			else
 				format.html { render :new }
