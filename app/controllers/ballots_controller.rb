@@ -1,5 +1,5 @@
 class BallotsController < ApplicationController
-  before_action :set_ballot, only: [:show, :edit, :update, :destroy]
+	before_action :set_ballot, only: [:show, :edit, :update, :destroy]
 
 	# GET /ballots
 	# GET /ballots.json
