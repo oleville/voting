@@ -32,16 +32,18 @@ jobs:
           keys:
             - docker-{{ arch }}-{{ .Branch }}
       - run: |
-          if test -r image.tar;
+          apt-get update; apt-get install pigz
+      - run: |
+          if test -r image.tar.gz;
           then
-            docker load -i image.tar
+            docker load -i image.tar.gz
           else
-            echo "missing image.tar, continuing with build"
+            echo "missing image.tar.gz, continuing with build"
           fi
           docker build -t oleville/voting:${CIRCLE_SHA1} .
-          docker save oleville/voting:${CIRCLE_SHA1} -o image.tar
+          docker save oleville/voting:${CIRCLE_SHA1} | pigz -9c > image.tar.gz
       - save_cache:
-          key: docker-{{ arch }}-{{ .Branch }}-{{ checksum "image.tar" }}
+          key: docker-{{ arch }}-{{ .Branch }}-{{ checksum "image.tar.gz" }}
           paths:
             - image.tar
 
