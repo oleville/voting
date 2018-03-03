@@ -35,7 +35,7 @@ jobs:
 
 workflows:
   version: 2
-  general:
+  build_and_deploy:
     jobs:
       - test
       - build:
