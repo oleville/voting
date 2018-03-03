@@ -4,6 +4,10 @@
 # Big directory
 /.git/
 
+# Ignore any archives
+*.tar
+*.tar.gz
+
 /data/*
 !/data/.keep
 
