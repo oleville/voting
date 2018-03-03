@@ -24,18 +24,25 @@ jobs:
       - run: |
           docker build -t oleville/voting:${CIRCLE_SHA1} .
 
+  deploy:
+    docker:
+      - image: docker:latest
+    steps:
+      - setup_remote_docker:
+      - checkout
+      - run: |
+          echo "hello world"
+
 workflows:
   version: 2
   general:
     jobs:
       - test
       - build:
-          requires:
-            - test
+          requires: [test]
       - deploy:
           context: global
-          requires:
-            - build
+          requires: [build]
           filters:
             branches:
               only:
