@@ -53,7 +53,7 @@ jobs:
       - save_cache:
           key: docker--{{ arch }}-{{ .Branch }}-{{ checksum "image.tar.gz" }}
           paths:
-            - image.tar
+            - image.tar.gz
 
   deploy_HEAD:
     docker:
