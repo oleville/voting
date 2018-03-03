@@ -32,7 +32,7 @@ jobs:
           keys:
             - docker-{{ arch }}-{{ .Branch }}
       - run: |
-          if -r image.tar;
+          if test -r image.tar;
           then
             docker load -i image.tar
           else
