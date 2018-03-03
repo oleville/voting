@@ -1,6 +1,11 @@
 # Ignore bundler config.
 /.bundle
 
+/data/*
+!/data/.keep
+
+/contrib/*.csv
+
 # Ignore all logfiles and tempfiles.
 /log/*
 /tmp/*
