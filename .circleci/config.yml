@@ -29,6 +29,7 @@ jobs:
       - image: docker:latest
     steps:
       - setup_remote_docker:
+          docker_layer_caching: true
       - checkout
       - run: |
           echo "hello world"
