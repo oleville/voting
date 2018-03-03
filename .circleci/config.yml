@@ -49,9 +49,3 @@ workflows:
             tags:
               only:
                 - /^v.*/
-
-  validation:
-    jobs:
-      - test
-      - build:
-          requires: [test]
