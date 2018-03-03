@@ -30,7 +30,7 @@ jobs:
       - checkout
       - restore_cache:
           keys:
-            - docker-{{ arch }}-{{ .Branch }}
+            - docker--{{ arch }}-{{ .Branch }}
       - run: |
           apk add --no-cache pigz
       - run:
@@ -51,7 +51,7 @@ jobs:
           command: |
             docker save oleville/voting:${CIRCLE_SHA1} | pigz -9c > image.tar.gz
       - save_cache:
-          key: docker-{{ arch }}-{{ .Branch }}-{{ checksum "image.tar.gz" }}
+          key: docker--{{ arch }}-{{ .Branch }}-{{ checksum "image.tar.gz" }}
           paths:
             - image.tar
 
