@@ -4,10 +4,40 @@ machine:
     - docker
     - mysql
 
+workflows:
+  version: 2
+  general:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+      - deploy:
+          context: global
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+            tags:
+              only:
+                - /^v.*/
+
 jobs:
+  test:
+    docker:
+      - image: circleci/ruby:2.5.0-browsers
+    steps:
+      - checkout
+      - run:
+          - bundle install
+          - bundle exec rspec
+
   build:
     docker:
       - image: circleci/ruby:2.5.0-browsers
     steps:
+      - setup_remote_docker
       - checkout
       - run: echo "hello world"
