@@ -34,6 +34,7 @@ class BallotsController < ApplicationController
 	# POST /ballots.json
 	def create
 		require_login!
+
 		@ballot = Ballot.new(ballot_params)
 
 		respond_to do |format|
