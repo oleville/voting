@@ -14,54 +14,66 @@ class BallotsController < ApplicationController
 		require_admin!
 	end
 
-  # GET /ballots/new
-  def new
-    @ballot = Ballot.new
-  end
+	# GET /ballots/new
+	def new
+		require_login!
 
-  # GET /ballots/1/edit
-  def edit
-  end
+		if @current_user.ballots.where(election_id: params[:election_id]).count > 0
+			redirect_to root_path, notice: 'You have already voted.'
+		end
 
-  # POST /ballots
-  # POST /ballots.json
-  def create
-    @ballot = Ballot.new(ballot_params)
+		@ballot = Ballot.new
+	end
 
-    respond_to do |format|
-      if @ballot.save
-        format.html { redirect_to @ballot, notice: 'Ballot was successfully created.' }
-        format.json { render :show, status: :created, location: @ballot }
-      else
-        format.html { render :new }
-        format.json { render json: @ballot.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+	# GET /ballots/1/edit
+	def edit
+		require_admin!
+	end
 
-  # PATCH/PUT /ballots/1
-  # PATCH/PUT /ballots/1.json
-  def update
-    respond_to do |format|
-      if @ballot.update(ballot_params)
-        format.html { redirect_to @ballot, notice: 'Ballot was successfully updated.' }
-        format.json { render :show, status: :ok, location: @ballot }
-      else
-        format.html { render :edit }
-        format.json { render json: @ballot.errors, status: :unprocessable_entity }
-      end
-    end
-  end
+	# POST /ballots
+	# POST /ballots.json
+	def create
+		require_login!
+		@ballot = Ballot.new(ballot_params)
 
-  # DELETE /ballots/1
-  # DELETE /ballots/1.json
-  def destroy
-    @ballot.destroy
-    respond_to do |format|
-      format.html { redirect_to ballots_url, notice: 'Ballot was successfully destroyed.' }
-      format.json { head :no_content }
-    end
-  end
+		respond_to do |format|
+			if @ballot.save
+				format.html { redirect_to @ballot, notice: 'Ballot was successfully created.' }
+				format.json { render :show, status: :created, location: @ballot }
+			else
+				format.html { render :new }
+				format.json { render json: @ballot.errors, status: :unprocessable_entity }
+			end
+		end
+	end
+
+	# PATCH/PUT /ballots/1
+	# PATCH/PUT /ballots/1.json
+	def update
+		require_admin!
+		respond_to do |format|
+			if @ballot.update(ballot_params)
+				format.html { redirect_to @ballot, notice: 'Ballot was successfully updated.' }
+				format.json { render :show, status: :ok, location: @ballot }
+			else
+				format.html { render :edit }
+				format.json { render json: @ballot.errors, status: :unprocessable_entity }
+			end
+		end
+	end
+
+	# DELETE /ballots/1
+	# DELETE /ballots/1.json
+	def destroy
+		require_admin!
+
+		@ballot.destroy
+
+		respond_to do |format|
+			format.html { redirect_to ballots_url, notice: 'Ballot was successfully destroyed.' }
+			format.json { head :no_content }
+		end
+	end
 
 	private
 
