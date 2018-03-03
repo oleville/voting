@@ -1,8 +1,7 @@
 require 'date'
 
 class Election < ApplicationRecord
-	has_many :positions
-	has_many :users
+	has_many :positions, dependent: :destroy
 
 	def self.currently_open_to(user)
 		return self.all if user && user.is_admin?
