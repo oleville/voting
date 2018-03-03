@@ -19,12 +19,12 @@ class ApplicationController < ActionController::Base
 	end
 
 	def require_login!
-		redirect_to :root if current_user.nil?
+		redirect_to root_url, notice: 'Not logged in!' if current_user.nil?
 	end
 
 	def require_admin!
 		if !current_user || !current_user.admin?
-			redirect_to :root, notice: "Not allowed to access this resource."
+			redirect_to root_url, notice: "Not allowed to access this resource."
 		end
 	end
 end
