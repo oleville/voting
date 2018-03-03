@@ -4,26 +4,31 @@ class ElectionsController < ApplicationController
   # GET /elections
   # GET /elections.json
   def index
-    @elections = Election.all
+	  require_admin!
+	  @elections = Election.all
   end
 
   # GET /elections/1
   # GET /elections/1.json
   def show
+	  require_admin!
   end
 
   # GET /elections/new
   def new
+	  require_admin!
     @election = Election.new
   end
 
   # GET /elections/1/edit
   def edit
+	  require_admin!
   end
 
   # POST /elections
   # POST /elections.json
   def create
+	  require_admin!
     @election = Election.new(election_params)
 
     respond_to do |format|
@@ -40,6 +45,7 @@ class ElectionsController < ApplicationController
   # PATCH/PUT /elections/1
   # PATCH/PUT /elections/1.json
   def update
+	  require_admin!
     respond_to do |format|
       if @election.update(election_params)
         format.html { redirect_to @election, notice: 'Election was successfully updated.' }
@@ -54,6 +60,7 @@ class ElectionsController < ApplicationController
   # DELETE /elections/1
   # DELETE /elections/1.json
   def destroy
+	  require_admin!
     @election.destroy
     respond_to do |format|
       format.html { redirect_to elections_url, notice: 'Election was successfully destroyed.' }
