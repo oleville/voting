@@ -32,7 +32,12 @@ jobs:
           keys:
             - docker-{{ arch }}-{{ .Branch }}
       - run: |
-          docker load -i image.tar
+          if -r image.tar;
+          then
+            docker load -i image.tar
+          else
+            echo "missing image.tar, continuing with build"
+          fi
           docker build -t oleville/voting:${CIRCLE_SHA1} .
           docker save oleville/voting:${CIRCLE_SHA1} -o image.tar
       - save_cache:
