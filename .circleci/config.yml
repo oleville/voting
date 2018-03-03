@@ -21,15 +21,28 @@ jobs:
     steps:
       - setup_remote_docker
       - checkout
+      - restore_cache:
+          keys:
+            - docker-{{ arch }}-{{ .Branch }}
       - run: |
+          docker load -i image.tar
           docker build -t oleville/voting:${CIRCLE_SHA1} .
+          docker save oleville/voting:${CIRCLE_SHA1} -o image.tar
+      - save_cache:
+          key: docker-{{ arch }}-{{ .Branch }}-{{ checksum image.tar }}
+          paths:
+            - image.tar
 
   deploy_HEAD:
     docker:
       - image: "docker:latest"
     steps:
       - setup_remote_docker
-      - checkout
+      - restore_cache:
+          keys:
+            - docker-{{ arch }}-{{ .Branch }}
+      - run: |
+          docker load -i image.tar
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:HEAD
       - run: |
@@ -41,7 +54,11 @@ jobs:
       - image: "docker:latest"
     steps:
       - setup_remote_docker
-      - checkout
+      - restore_cache:
+          keys:
+            - docker-{{ arch }}-{{ .Branch }}
+      - run: |
+          docker load -i image.tar
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_BRANCH}
       - run: |
@@ -53,7 +70,11 @@ jobs:
       - image: "docker:latest"
     steps:
       - setup_remote_docker
-      - checkout
+      - restore_cache:
+          keys:
+            - docker-{{ arch }}-{{ .Branch }}
+      - run: |
+          docker load -i image.tar
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_TAG}
       - run: |
