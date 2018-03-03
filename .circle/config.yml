@@ -4,26 +4,6 @@ machine:
     - docker
     - mysql
 
-workflows:
-  version: 2
-  general:
-    jobs:
-      - test
-      - build:
-          requires:
-            - test
-      - deploy:
-          context: global
-          requires:
-            - build
-          filters:
-            branches:
-              only:
-                - master
-            tags:
-              only:
-                - /^v.*/
-
 jobs:
   test:
     docker:
@@ -43,3 +23,23 @@ jobs:
       - checkout
       - run: |
           docker build -t oleville/voting:${CIRCLE_SHA1} .
+
+workflows:
+  version: 2
+  general:
+    jobs:
+      - test
+      - build:
+          requires:
+            - test
+      - deploy:
+          context: global
+          requires:
+            - build
+          filters:
+            branches:
+              only:
+                - master
+            tags:
+              only:
+                - /^v.*/
