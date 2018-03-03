@@ -28,6 +28,7 @@ services:
       - RAILS_MAX_THREADS=4
       - SECRET_KEY_BASE
       - RAILS_ENV
+      - RAILS_LOG_TO_STDOUT=true
     volumes:
       - './contrib:/srv/vote/contrib'
 
