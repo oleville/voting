@@ -3,27 +3,33 @@ class CandidatesController < ApplicationController
 
   # GET /candidates
   # GET /candidates.json
-  def index
-    @candidates = Candidate.all
+	def index
+		require_login!
+		@candidates = Candidate.all
   end
 
   # GET /candidates/1
   # GET /candidates/1.json
-  def show
+	def show
+		require_login!
   end
 
   # GET /candidates/new
-  def new
+	def new
+		require_admin!
     @candidate = Candidate.new
   end
 
   # GET /candidates/1/edit
-  def edit
+	def edit
+		require_admin!
   end
 
   # POST /candidates
   # POST /candidates.json
-  def create
+	def create
+		require_admin!
+
     @candidate = Candidate.new(candidate_params)
 
     respond_to do |format|
@@ -39,7 +45,9 @@ class CandidatesController < ApplicationController
 
   # PATCH/PUT /candidates/1
   # PATCH/PUT /candidates/1.json
-  def update
+	def update
+		require_admin!
+
     respond_to do |format|
       if @candidate.update(candidate_params)
         format.html { redirect_to @candidate, notice: 'Candidate was successfully updated.' }
@@ -54,7 +62,9 @@ class CandidatesController < ApplicationController
   # DELETE /candidates/1
   # DELETE /candidates/1.json
   def destroy
-    @candidate.destroy
+	  require_admin!
+
+	  @candidate.destroy
     respond_to do |format|
       format.html { redirect_to candidates_url, notice: 'Candidate was successfully destroyed.' }
       format.json { head :no_content }
@@ -62,13 +72,14 @@ class CandidatesController < ApplicationController
   end
 
   private
-    # Use callbacks to share common setup or constraints between actions.
-    def set_candidate
-      @candidate = Candidate.find(params[:id])
-    end
 
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def candidate_params
-      params.require(:candidate).permit(:name, :picture_url, :description, :election_id, :position_id)
-    end
+  # Use callbacks to share common setup or constraints between actions.
+  def set_candidate
+	  @candidate = Candidate.find(params[:id])
+  end
+
+  # Never trust parameters from the scary internet, only allow the white list through.
+  def candidate_params
+	  params.require(:candidate).permit(:name, :picture_url, :description, :violations, :election_id, :position_id)
+  end
 end
