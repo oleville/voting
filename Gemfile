@@ -37,6 +37,8 @@ group :development, :test do
 
 	gem 'rspec', '~> 3.7'
 	gem 'rspec-rails', '~> 3.7'
+	gem 'guard', '~> 2.14.2'
+	gem 'guard-rspec', '~> 4.7'
 
 	# Adds support for Capybara system testing and selenium driver
 	gem 'capybara', '~> 2.13'
