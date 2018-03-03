@@ -19,7 +19,11 @@ class BallotsController < ApplicationController
 	def new
 		require_login!
 
-		if @current_user.ballots.where(election_id: params[:election_id]).count > 0
+		if !params[:election_id] || !(@election = Election.find(params[:election_id]))
+			redirect_to root_path, notice: "Missing election id, can't show you a ballot if you don't do that..."
+		end
+
+		if @current_user.ballots.where(election_id: @election.id).count > 0
 			redirect_to root_path, notice: 'You have already voted.'
 		end
 
