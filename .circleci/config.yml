@@ -38,10 +38,13 @@ jobs:
           command: |
             if test -r image.tar.gz;
             then
+              echo "Loading from image.tar.gz"
               docker load -i image.tar.gz
             else
               echo "missing image.tar.gz, continuing with build"
             fi
+
+            docker images -a
       - run:
           name: 'Build docker image'
           command: |
