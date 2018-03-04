@@ -5,6 +5,7 @@ class BallotsController < ApplicationController
 	# GET /ballots.json
 	def index
 		require_admin!
+
 		@ballots = Ballot.all
 	end
 
@@ -18,7 +19,11 @@ class BallotsController < ApplicationController
 	def new
 		require_login!
 
-		if @current_user.ballots.where(election_id: params[:election_id]).count > 0
+		if !params[:election_id] || !(@election = Election.find(params[:election_id]))
+			redirect_to root_path, notice: "Missing election id, can't show you a ballot if you don't do that..."
+		end
+
+		if @current_user.ballots.where(election_id: @election.id).count > 0
 			redirect_to root_path, notice: 'You have already voted.'
 		end
 
@@ -34,11 +39,12 @@ class BallotsController < ApplicationController
 	# POST /ballots.json
 	def create
 		require_login!
+
 		@ballot = Ballot.new(ballot_params)
 
 		respond_to do |format|
 			if @ballot.save
-				format.html { redirect_to @ballot, notice: 'Ballot was successfully created.' }
+				format.html { redirect_to root_path, notice: 'You have successfully voted.' }
 				format.json { render :show, status: :created, location: @ballot }
 			else
 				format.html { render :new }
