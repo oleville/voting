@@ -19,7 +19,9 @@
 <div class="election">
 	<% user.visible_positions.each do |position| %>
 	<div class="position">
-		For the "<%= position.name %>" position:
+		<div class="instruction">
+			Rank your candidate choices for the "<%= position.name %>" position
+		</div>
 
 		<% position.candidates.each do |candidate| %>
 		<% count = position.candidates.count %>
