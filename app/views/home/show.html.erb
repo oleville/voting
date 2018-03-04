@@ -11,7 +11,16 @@
 
 	<% if currently_open.count > 0 %>
 	<% currently_open.each do |election| %>
-	<div><%= link_to election.name, new_ballot_path({ :election_id => election.id }) %> &mdash; open until <%= election.end_time %></div>
+	<div class="election-container">
+		<%= link_to election.name, new_ballot_path({ :election_id => election.id }) %>
+		<span class="detail">
+			<% if election.is_open? %>
+			open until <%= election.end_time %>
+			<% else %>
+			closed (still visible to admins)
+			<% end %>
+		</span>
+	</div>
 	<% end %>
 	<% else %>
 	<div>No elections open currently! Try back in a few.</div>

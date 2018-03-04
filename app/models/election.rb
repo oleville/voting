@@ -12,12 +12,18 @@ class Election < ApplicationRecord
 		end
 	end
 
+	def positions_for(user)
+		Position.where(group_id: nil, election_id: id) +
+			user.positions.where(election_id: id)
+	end
+
+
 	def to_s
 		name
 	end
 
 	def is_open?
 		now = DateTime.now
-		start_time <= now && now < end_time
+		(start_time <= now) && (now < end_time)
 	end
 end

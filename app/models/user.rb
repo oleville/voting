@@ -29,10 +29,6 @@ class User < ApplicationRecord
 		end
 	end
 
-	def visible_positions
-		positions + Position.where(group_id: nil)
-	end
-
 	def to_s
 		name
 	end
