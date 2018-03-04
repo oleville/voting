@@ -17,8 +17,6 @@
 <% end %>
 
 <div class="election">
-	In the "<%= election = Election.find_by(params[:election_id]) || "current" %>" election:
-
 	<% user.visible_positions.each do |position| %>
 	<div class="position">
 		For the "<%= position.name %>" position:
