@@ -23,6 +23,11 @@ class BallotsController < ApplicationController
 			redirect_to root_path, notice: "Missing election id, can't show you a ballot if you don't do that..."
 		end
 
+		if !@election.is_open?
+			redirect_to root_path, notice: 'This election is not currently open.'
+		end
+
+
 		if @current_user.ballots.where(election_id: @election.id).count > 0
 			redirect_to root_path, notice: 'You have already voted.'
 		end
