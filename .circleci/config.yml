@@ -85,11 +85,9 @@ jobs:
       - run: |
           docker load -qi image.tar.gz
       - run: |
-          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:HEAD
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:latest
       - run: |
           docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-          docker push docker.io/oleville/voting:HEAD
           docker push docker.io/oleville/voting:latest
 
 workflows:
