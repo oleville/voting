@@ -4,6 +4,10 @@
 /data/*
 !/data/.keep
 
+# Ignore any archives
+*.tar
+*.tar.gz
+
 /contrib/*.csv
 
 # Ignore all logfiles and tempfiles.
