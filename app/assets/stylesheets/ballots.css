@@ -1,7 +1,7 @@
 /*
-  Place all the styles related to the matching controller here.
-  They will automatically be included in application.css.
-*/
+   Place all the styles related to the matching controller here.
+   They will automatically be included in application.css.
+ */
 
 .position {
 	background-color: #f0f0f0;
@@ -9,6 +9,4 @@
 	margin-bottom: 2em;
 }
 
-.position .instruction {
-	margin-bottom: 1em;
-}
+.position .instruction:not(:last-child) { margin-bottom: 1em; }
