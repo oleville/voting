@@ -58,22 +58,6 @@ jobs:
           paths:
             - image.tar.gz
 
-  deploy_HEAD:
-    docker:
-      - image: "docker:latest"
-    steps:
-      - setup_remote_docker
-      - restore_cache:
-          keys:
-            - docker--{{ arch }}-{{ .Branch }}
-      - run: |
-          docker load -qi image.tar.gz
-      - run: |
-          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:HEAD
-      - run: |
-          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-          docker push docker.io/oleville/voting:HEAD
-
   deploy_branch:
     docker:
       - image: "docker:latest"
@@ -90,7 +74,7 @@ jobs:
           docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
           docker push docker.io/oleville/voting:${CIRCLE_BRANCH}
 
-  deploy_tag:
+  deploy_latest:
     docker:
       - image: "docker:latest"
     steps:
@@ -101,11 +85,11 @@ jobs:
       - run: |
           docker load -qi image.tar.gz
       - run: |
-          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_TAG}
+          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:HEAD
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:latest
       - run: |
           docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-          docker push docker.io/oleville/voting:${CIRCLE_TAG}
+          docker push docker.io/oleville/voting:HEAD
           docker push docker.io/oleville/voting:latest
 
 workflows:
@@ -115,22 +99,14 @@ workflows:
       - test
       - build:
           requires: [test]
-      - deploy_HEAD:
-          requires: [build]
-          filters:
-            branches:
-              only:
-                - master
       - deploy_branch:
           requires: [build]
           filters:
             branches:
               ignore: [master]
-      - deploy_tag:
+      - deploy_latest:
           requires: [build]
           filters:
-            tags:
-              only:
-                - /.*/
             branches:
-              ignore: /.*/
+              only:
+                - master
