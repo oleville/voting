@@ -23,8 +23,8 @@
 			Rank your candidate choices for the "<%= position.name %>" position
 		</div>
 
-		<% position.candidates.each do |candidate| %>
 		<% count = position.candidates.count %>
+		<% position.candidates.each do |candidate| %>
 
 		<div class="candidate-profile">
 			<div class="candidate-name"><%= link_to candidate, candidate_url(candidate) %></div>
