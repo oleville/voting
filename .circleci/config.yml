@@ -39,7 +39,7 @@ jobs:
             if test -r image.tar.gz;
             then
               echo "Loading from image.tar.gz"
-              docker load -i image.tar.gz
+              docker load -qi image.tar.gz
             else
               echo "missing image.tar.gz, continuing with build"
             fi
@@ -67,7 +67,7 @@ jobs:
           keys:
             - docker--{{ arch }}-{{ .Branch }}
       - run: |
-          docker load -i image.tar.gz
+          docker load -qi image.tar.gz
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:HEAD
       - run: |
@@ -83,7 +83,7 @@ jobs:
           keys:
             - docker--{{ arch }}-{{ .Branch }}
       - run: |
-          docker load -i image.tar.gz
+          docker load -qi image.tar.gz
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_BRANCH}
       - run: |
@@ -99,7 +99,7 @@ jobs:
           keys:
             - docker--{{ arch }}-{{ .Branch }}
       - run: |
-          docker load -i image.tar.gz
+          docker load -qi image.tar.gz
       - run: |
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_TAG}
           docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:latest
@@ -133,5 +133,4 @@ workflows:
               only:
                 - /^v.*/
             branches:
-              only:
-                - master
+              ignore: /.*/
