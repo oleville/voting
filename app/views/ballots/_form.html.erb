@@ -17,7 +17,7 @@
 <% end %>
 
 <div class="election">
-	<% user.visible_positions.each do |position| %>
+	<% @election.positions_for(user).each do |position| %>
 	<div class="position">
 		<div class="instruction">
 			Rank your candidate choices for the "<%= position.name %>" position
