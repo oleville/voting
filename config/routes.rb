@@ -6,7 +6,7 @@ Rails.application.routes.draw do
 	resources :sessions, only: [:create, :destroy]
 	resources :home, only: [:show]
 
-  resources :ballots
+  resources :ballots, except: [:edit]
   resources :votes
   resources :positions
   resources :candidates
