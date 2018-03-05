@@ -16,6 +16,7 @@ Rails.application.routes.draw do
 	resources :elections do
 		member do
 			get 'results'
+			get 'live'
 		end
 	end
 
