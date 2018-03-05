@@ -5,6 +5,7 @@ class CandidatesController < ApplicationController
 	# GET /candidates.json
 	def index
 		require_login!
+
 		@candidates = Candidate.all
 	end
 
@@ -80,6 +81,6 @@ class CandidatesController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def candidate_params
-		params.require(:candidate).permit(:name, :picture_url, :description, :violations, :election_id, :position_id)
+		params.require(:candidate).permit(:name, :profile_url, :violations, :election_id, :position_id)
 	end
 end
