@@ -49,15 +49,12 @@ jobs:
           name: 'Build docker image'
           command: |
             docker build --cache-from="$(docker images -a -q)" -t oleville/voting:${CIRCLE_SHA1} .
-      - run:
-          name: "Tag the Docker image"
-          command: |
-            docker tag oleville/voting:${CIRCLE_SHA1} docker.io/oleville/voting:${CIRCLE_BRANCH}
       - run: |
-          name: "Deploy to docker.io"
+          name: "Tag and deploy to to docker.io"
           command: |
+            docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_BRANCH}
             docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-            docker push docker.io/oleville/voting:${CIRCLE_BRANCH}
+            docker push oleville/voting:${CIRCLE_BRANCH}
       - run:
           name: 'Dump image to cachable .tar.gz file'
           command: |
@@ -94,15 +91,12 @@ jobs:
           name: 'Build docker image'
           command: |
             docker build --cache-from="$(docker images -a -q)" -t oleville/voting:${CIRCLE_SHA1} .
-      - run:
-          name: "Tag the Docker image"
-          command: |
-            docker tag oleville/voting:${CIRCLE_SHA1} docker.io/oleville/voting:latest
       - run: |
-          name: "Deploy to docker.io"
+          name: "Tag and deploy to docker.io"
           command: |
+            docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:latest
             docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-            docker push docker.io/oleville/voting:latest
+            docker push oleville/voting:latest
       - run:
           name: 'Dump image to cachable .tar.gz file'
           command: |
