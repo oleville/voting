@@ -23,13 +23,10 @@ class BallotsController < ApplicationController
 			redirect_to root_path, notice: "Missing election id, can't show you a ballot if you don't do that..."
 		end
 
+		ensure_not_voted_yet!
+
 		if !@election.is_open?
 			redirect_to root_path, notice: 'This election is not currently open.'
-		end
-
-
-		if @current_user.ballots.where(election_id: @election.id).count > 0
-			redirect_to root_path, notice: 'You have already voted.'
 		end
 
 		@ballot = Ballot.new
@@ -44,6 +41,8 @@ class BallotsController < ApplicationController
 	# POST /ballots.json
 	def create
 		require_login!
+
+		ensure_not_voted_yet!
 
 		@ballot = Ballot.new(ballot_params)
 
@@ -87,6 +86,12 @@ class BallotsController < ApplicationController
 	end
 
 	private
+
+	def ensure_not_voted_yet!
+		if @current_user.ballots.where(election_id: @election.id).count > 0
+			redirect_to root_path, notice: 'You have already voted.'
+		end
+	end
 
 	# Use callbacks to share common setup or constraints between actions.
 	def set_ballot
