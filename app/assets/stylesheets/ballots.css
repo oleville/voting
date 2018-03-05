@@ -9,4 +9,19 @@
 	margin-bottom: 2em;
 }
 
-.position .instruction:not(:last-child) { margin-bottom: 1em; }
+.position-title {
+	font-size: 14pt;
+	padding-bottom: 3pt;
+}
+
+.candidates-container {
+	margin-left: 8pt;
+}
+
+.candidates-container .candidate {
+	margin-bottom: 4pt;
+}
+
+.candidates-container .candidate .candidate-name {
+	font-size: 12pt;
+}
