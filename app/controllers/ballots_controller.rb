@@ -9,12 +9,6 @@ class BallotsController < ApplicationController
 		@ballots = Ballot.all
 	end
 
-	# GET /ballots/1
-	# GET /ballots/1.json
-	def show
-		require_admin!
-	end
-
 	# GET /ballots/new
 	def new
 		require_login!
