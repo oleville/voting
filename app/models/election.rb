@@ -3,6 +3,12 @@ require 'date'
 class Election < ApplicationRecord
 	has_many :positions, dependent: :destroy
 
+	def self.currently_open
+		self.select do |election|
+			election.is_open?
+		end
+	end
+
 	def self.currently_open_to(user)
 		return self.all if user && user.is_admin?
 
