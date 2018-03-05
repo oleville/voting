@@ -20,7 +20,7 @@ class BallotsController < ApplicationController
 		require_login!
 
 		if !params[:election_id] || !(@election = Election.find(params[:election_id]))
-			if (@currently_open_elections = Election.currently_open_to(current_user)).count > 0
+			if (@currently_open_elections = Election.currently_open).count > 0
 				redirect_to new_ballot_path(params: { election_id: @currently_open_elections.first.id }) and return
 			else
 				redirect_to root_path, notice: "No currently open elections."
