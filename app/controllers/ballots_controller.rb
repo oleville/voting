@@ -36,11 +36,6 @@ class BallotsController < ApplicationController
 		@ballot = Ballot.new
 	end
 
-	# GET /ballots/1/edit
-	def edit
-		require_admin!
-	end
-
 	# POST /ballots
 	# POST /ballots.json
 	def create
