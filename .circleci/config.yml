@@ -22,7 +22,7 @@ jobs:
       - run: |
           bundle exec rspec
 
-  build:
+  build_and_deploy_branch:
     docker:
       - image: docker:latest
     steps:
@@ -50,6 +50,15 @@ jobs:
           command: |
             docker build --cache-from="$(docker images -a -q)" -t oleville/voting:${CIRCLE_SHA1} .
       - run:
+          name: "Tag the Docker image"
+          command: |
+            docker tag oleville/voting:${CIRCLE_SHA1} docker.io/oleville/voting:${CIRCLE_BRANCH}
+      - run: |
+          name: "Deploy to docker.io"
+          command: |
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            docker push docker.io/oleville/voting:${CIRCLE_BRANCH}
+      - run:
           name: 'Dump image to cachable .tar.gz file'
           command: |
             docker save oleville/voting:${CIRCLE_SHA1} | pigz -9c > image.tar.gz
@@ -58,52 +67,63 @@ jobs:
           paths:
             - image.tar.gz
 
-  deploy_branch:
+  build_and_deploy_latest:
     docker:
-      - image: "docker:latest"
+      - image: docker:latest
     steps:
       - setup_remote_docker
+      - checkout
       - restore_cache:
           keys:
             - docker--{{ arch }}-{{ .Branch }}
       - run: |
-          docker load -qi image.tar.gz
-      - run: |
-          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_BRANCH}
-      - run: |
-          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-          docker push docker.io/oleville/voting:${CIRCLE_BRANCH}
+          apk add --no-cache pigz
+      - run:
+          name: 'Load from cache if possible'
+          command: |
+            if test -r image.tar.gz;
+            then
+              echo "Loading from image.tar.gz"
+              docker load -qi image.tar.gz
+            else
+              echo "missing image.tar.gz, continuing with build"
+            fi
 
-  deploy_latest:
-    docker:
-      - image: "docker:latest"
-    steps:
-      - setup_remote_docker
-      - restore_cache:
-          keys:
-            - docker--{{ arch }}-{{ .Branch }}
+            docker images -a
+      - run:
+          name: 'Build docker image'
+          command: |
+            docker build --cache-from="$(docker images -a -q)" -t oleville/voting:${CIRCLE_SHA1} .
+      - run:
+          name: "Tag the Docker image"
+          command: |
+            docker tag oleville/voting:${CIRCLE_SHA1} docker.io/oleville/voting:latest
       - run: |
-          docker load -qi image.tar.gz
-      - run: |
-          docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:latest
-      - run: |
-          docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
-          docker push docker.io/oleville/voting:latest
+          name: "Deploy to docker.io"
+          command: |
+            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            docker push docker.io/oleville/voting:latest
+      - run:
+          name: 'Dump image to cachable .tar.gz file'
+          command: |
+            docker save oleville/voting:${CIRCLE_SHA1} | pigz -9c > image.tar.gz
+      - save_cache:
+          key: docker--{{ arch }}-{{ .Branch }}-{{ checksum "image.tar.gz" }}
+          paths:
+            - image.tar.gz
 
 workflows:
   version: 2
   build_and_deploy:
     jobs:
       - test
-      - build:
+      - build_and_deploy_branch:
           requires: [test]
-      - deploy_branch:
-          requires: [build]
           filters:
             branches:
               ignore: [master]
-      - deploy_latest:
-          requires: [build]
+      - build_and_deploy_latest:
+          requires: [test]
           filters:
             branches:
               only:
