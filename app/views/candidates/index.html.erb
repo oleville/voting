@@ -6,8 +6,6 @@
   <thead>
     <tr>
       <th>Name</th>
-      <th>Picture url</th>
-      <th>Description</th>
       <th>Election</th>
       <th>Position</th>
       <th>Violations</th>
@@ -18,9 +16,7 @@
   <tbody>
     <% @candidates.each do |candidate| %>
     <tr>
-      <td><%= candidate.name %></td>
-      <td><%= candidate.picture_url %></td>
-      <td><%= candidate.description %></td>
+      <td><%= link_to candidate.name, candidate.profile_url || candidate_url(candidate) %></td>
       <td><%= candidate.election %></td>
       <td><%= candidate.position %></td>
       <td><%= candidate.violations %></td>

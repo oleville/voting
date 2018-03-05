@@ -19,21 +19,20 @@
 <div class="election">
 	<% @election.positions_for(user).each do |position| %>
 	<div class="position">
-		<div class="instruction">
-			Rank your candidate choices for the "<%= position.name %>" position
+		<div class="position-title">
+			<%= position.name %>
 		</div>
 
 		<% count = position.candidates.count %>
 		<% position.candidates.each do |candidate| %>
-
-		<div class="candidate-profile">
+		<div class="candidate">
 			<%= form.fields_for :votes, @ballot.votes.build do |vote_form| %>
 			<%= vote_form.hidden_field :user_id, value: current_user.id %>
 			<%= vote_form.hidden_field :position_id, value: position.id %>
 			<%= vote_form.hidden_field :candidate_id, value: candidate.id %>
 
 			<span><%= vote_form.select :rank, (0..count).map {|n| n == 0 ? nil : n }.map {|n| n.nil? ? [' ', n] : [ n.to_i, n ]} %></span>
-			<span class="candidate-name"><%= link_to candidate, candidate_url(candidate) %></span>
+			<span class="candidate-name"><%= link_to candidate, candidate.profile_url || candidate_url(candidate) %></span>
 			<% end %>
 		</div>
 		<% end %>

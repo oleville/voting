@@ -6,13 +6,8 @@
 </p>
 
 <p>
-  <strong>Picture url:</strong>
-  <%= @candidate.picture_url %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @candidate.description %>
+  <strong>Profile:</strong>
+  <%= link_to @candidate.profile_url || candidate_url(@candidate), (@candidate.profile_url || candidate_url(@candidate)) %>
 </p>
 
 <p>
