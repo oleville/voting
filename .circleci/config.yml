@@ -22,7 +22,7 @@ jobs:
       - run: |
           bundle exec rspec
 
-  build_and_deploy_branch:
+  deploy_branch:
     docker:
       - image: docker:latest
     steps:
@@ -67,7 +67,7 @@ jobs:
           paths:
             - image.tar.gz
 
-  build_and_deploy_latest:
+  deploy_latest:
     docker:
       - image: docker:latest
     steps:
@@ -117,12 +117,12 @@ workflows:
   build_and_deploy:
     jobs:
       - test
-      - build_and_deploy_branch:
+      - deploy_branch:
           requires: [test]
           filters:
             branches:
               ignore: [master]
-      - build_and_deploy_latest:
+      - deploy_latest:
           requires: [test]
           filters:
             branches:
