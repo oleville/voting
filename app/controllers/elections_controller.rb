@@ -1,5 +1,5 @@
 class ElectionsController < ApplicationController
-	before_action :set_election, only: [:show, :edit, :update, :destroy]
+	before_action :set_election, only: [:show, :edit, :results, :update, :destroy]
 
 	# GET /elections
 	# GET /elections.json
@@ -22,6 +22,11 @@ class ElectionsController < ApplicationController
 
 	# GET /elections/1/edit
 	def edit
+		require_admin!
+	end
+
+	# GET /elections/1/results
+	def results
 		require_admin!
 	end
 
