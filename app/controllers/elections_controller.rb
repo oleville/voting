@@ -1,5 +1,5 @@
 class ElectionsController < ApplicationController
-	before_action :set_election, only: [:show, :edit, :results, :update, :destroy]
+	before_action :set_election, only: [:show, :edit, :live, :results, :update, :destroy]
 
 	# GET /elections
 	# GET /elections.json
@@ -27,7 +27,12 @@ class ElectionsController < ApplicationController
 
 	# GET /elections/1/live
 	def live
-		require_admin!
+		require_login!
+
+		@voted_so_far = @election.ballots.count
+		@total_users = User.count
+
+		@percentage = @voted_so_far.to_f / @total_users.to_f
 	end
 
 	# GET /elections/1/results

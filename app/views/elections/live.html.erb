@@ -1,24 +1,9 @@
-<p id="notice"><%= notice %></p>
+<div class="election-live">
+	<div class="name"><%= @election.name %></div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @election.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @election.description %>
-</p>
-
-<p>
-  <strong>Start time:</strong>
-  <%= @election.start_time %>
-</p>
-
-<p>
-  <strong>End time:</strong>
-  <%= @election.end_time %>
-</p>
-
-<%= link_to 'Edit', edit_election_path(@election) %> |
-<%= link_to 'Back', elections_path %>
+	<div class="liveness">
+		<%= @voted_so_far %>
+		<%= @total_users %>
+		<%= @percentage %>
+	</div>
+</div>
