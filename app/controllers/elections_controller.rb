@@ -32,6 +32,8 @@ class ElectionsController < ApplicationController
 	# GET /elections/1/results
 	def results
 		require_admin!
+
+		@results = Election.results
 	end
 
 	# POST /elections
