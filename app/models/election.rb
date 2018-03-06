@@ -2,6 +2,7 @@ require 'date'
 
 class Election < ApplicationRecord
 	has_many :positions, dependent: :destroy
+	has_many :ballots, dependent: :destroy
 
 	def self.currently_open
 		self.select do |election|
