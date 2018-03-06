@@ -1,24 +1,9 @@
-<p id="notice"><%= notice %></p>
+<div class="election-live">
+	<div class="contents">
+		<div class="liveness">
+			<%= (@percentage * 100.0).round(3).to_s + '%' %>
+		</div>
 
-<p>
-  <strong>Name:</strong>
-  <%= @election.name %>
-</p>
-
-<p>
-  <strong>Description:</strong>
-  <%= @election.description %>
-</p>
-
-<p>
-  <strong>Start time:</strong>
-  <%= @election.start_time %>
-</p>
-
-<p>
-  <strong>End time:</strong>
-  <%= @election.end_time %>
-</p>
-
-<%= link_to 'Edit', edit_election_path(@election) %> |
-<%= link_to 'Back', elections_path %>
+		<div class="title">In the <%= @election.name %> election</div>
+	</div>
+</div>
