@@ -73,7 +73,9 @@ class Election < ApplicationRecord
 			[position, remaining_candidates[0]]
 		end.to_h
 
-		simple_results[:write_ins] = WriteIn.all.to_a
+		simple_results.map do |position, candidate|
+			simple_results[position] = { candidate: candidate, write_ins: WriteIn.where(position_id: position.id, rank: 1..Float::INFINITY) }
+		end
 
 		simple_results
 	end
