@@ -88,6 +88,6 @@ class BallotsController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def ballot_params
-		params.require(:ballot).permit(:user_id, :election_id, :votes_attributes => [:rank, :user_id, :ballot_id, :candidate_id, :position_id])
+		params.require(:ballot).permit(:user_id, :election_id, :votes_attributes => [:rank, :user_id, :ballot_id, :candidate_id, :position_id], :write_ins_attributes => [:rank, :name, :user_id, :ballot_id, :position_id])
 	end
 end
