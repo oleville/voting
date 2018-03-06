@@ -16,7 +16,7 @@ class User < ApplicationRecord
 	def self.from_omniauth(auth)
 		existing_user = where(provider: auth.provider, uid: auth.uid).or(where(email: auth.info.email)).first
 
-		raise "What" if !existing_user
+		raise "User does not exist" if !existing_user
 
 		existing_user.tap do |user|
 			user.provider = auth.provider
