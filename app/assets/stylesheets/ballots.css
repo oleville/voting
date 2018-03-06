@@ -25,3 +25,8 @@
 .candidates-container .candidate .candidate-name {
 	font-size: 12pt;
 }
+
+.candidates-container .selector label,
+.candidates-container .selector input {
+	display: inline
+}
