@@ -80,6 +80,10 @@ class Election < ApplicationRecord
 		simple_results
 	end
 
+	def has_public_results?
+		!is_open? && validated && results_public
+	end
+
 	def to_s
 		name
 	end

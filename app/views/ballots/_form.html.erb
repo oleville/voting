@@ -25,7 +25,7 @@
 
 		<% count = position.candidates.count %>
 		<div class="candidates-container">
-			<% position.candidates.each do |candidate| %>
+			<% position.candidates.shuffle.each do |candidate| %>
 			<div class="candidate">
 				<%= form.fields_for :votes, @ballot.votes.build do |vote_form| %>
 				<%= vote_form.hidden_field :user_id, value: current_user.id %>

@@ -22,10 +22,16 @@ body {
 
 a {
 	text-decoration: none;
+	color: #049;
+}
+
+a:visited {
+	color: #4af;
 }
 
 a:hover {
 	background-color: inherit;
+	color: black;
 }
 
 @media screen and (min-width: 720px) {
