@@ -37,7 +37,7 @@ class ElectionsController < ApplicationController
 
 	# GET /elections/1/results
 	def results
-		require_admin!
+		require_admin! unless @election.has_public_results?
 
 		@results = @election.results
 	end
@@ -93,6 +93,6 @@ class ElectionsController < ApplicationController
 
 	# Never trust parameters from the scary internet, only allow the white list through.
 	def election_params
-		params.require(:election).permit(:name, :description, :start_time, :end_time)
+		params.require(:election).permit(:name, :description, :validated, :results_public, :start_time, :end_time)
 	end
 end
