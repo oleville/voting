@@ -3,15 +3,38 @@
 
 const hooky = () => {
 	[].slice.call(document.querySelectorAll('.position')).forEach((position) => {
-		console.log(`Inserting hooks for ${position}`);
+		let buttons = [].slice.call(position.querySelectorAll('.candidate .selector input'))
+		let disabledRanks = []
 
-		[].slice.call(position.querySelectorAll('.candidate .selector input')).forEach((input) => {
-			input.onclick = () => {
-				let rankChoice = input.getAttribute('id').toString().match(/_rank_(\d+)/)[0];
-				let otherRanksForThisPosition = [].slice.call(position.querySelectorAll(`[id$=${rankChoice}]`)).filter(item => item !== input )
+		let rectify = () => {
+			let selectedButtons = buttons.filter(button => button.checked)
 
-				otherRanksForThisPosition.forEach(element => element.disabled = true)
-			}
+			let selectedRanks = selectedButtons.map(button => {
+				let rankNumberMatch = button.getAttribute('id').toString().match(/_rank_(\d+)/)
+
+				if(rankNumberMatch)
+					return rankNumberMatch[0]
+				else
+					return null
+			}).filter(rank => !!rank)
+
+			selectedRanks.forEach(rank => {
+				[].slice.call(position.querySelectorAll(`[id$=${rank}]`)).forEach(element => { element.disabled = true })
+				disabledRanks.push(rank)
+			})
+
+			let ranksToEnable = disabledRanks
+				.filter(disabledRank => selectedRanks.indexOf(disabledRank) < 0)
+				.filter((value, index, array) => array.indexOf(value) === index)
+
+			ranksToEnable.forEach(rank => {
+				[].slice.call(position.querySelectorAll(`[id$=${rank}]`)).forEach(element => { element.disabled = false })
+				disabledRanks = disabledRanks.filter(rankToCheck => rankToCheck !== rank)
+			})
+		}
+
+		buttons.forEach((input) => {
+			input.onchange = rectify
 		})
 	})
 }
