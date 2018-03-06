@@ -1,5 +1,6 @@
 class BallotsController < ApplicationController
-	before_action :set_ballot, only: [:show, :edit, :update, :destroy]
+	before_action :set_ballot, only: [:destroy]
+	before_action :set_election, only: [:new, :create]
 
 	# GET /ballots
 	# GET /ballots.json
@@ -13,7 +14,7 @@ class BallotsController < ApplicationController
 	def new
 		require_login!
 
-		if !params[:election_id] || !(@election = Election.find(params[:election_id]))
+		if !@election
 			if (@currently_open_elections = Election.currently_open).count > 0
 				redirect_to new_ballot_path(params: { election_id: @currently_open_elections.first.id }) and return
 			else
@@ -44,7 +45,7 @@ class BallotsController < ApplicationController
 				format.html { redirect_to root_path, notice: 'You have successfully voted.' }
 				format.json { render :show, status: :created, location: @ballot }
 			else
-				format.html { render :new }
+				format.html { redirect_to new_ballot_path(params: { election_id: @election.id }) }
 				format.json { render json: @ballot.errors, status: :unprocessable_entity }
 			end
 		end
@@ -66,7 +67,7 @@ class BallotsController < ApplicationController
 	private
 
 	def ensure_not_voted_yet!
-		if @current_user.ballots.where(election_id: @election.id).count > 0
+		if @election && @current_user.ballots.where(election_id: @election.id).count > 0
 			redirect_to root_path, notice: 'You have already voted.'
 		end
 	end
@@ -74,6 +75,15 @@ class BallotsController < ApplicationController
 	# Use callbacks to share common setup or constraints between actions.
 	def set_ballot
 		@ballot = Ballot.find(params[:id])
+	end
+
+	# Use callbacks to share common setup or constraints between actions.
+	def set_election
+		begin
+			@election = Election.find(params[:election_id])
+		rescue
+			return nil
+		end
 	end
 
 	# Never trust parameters from the scary internet, only allow the white list through.
