@@ -25,6 +25,11 @@ class ElectionsController < ApplicationController
 		require_admin!
 	end
 
+	# GET /elections/1/live
+	def live
+		require_admin!
+	end
+
 	# GET /elections/1/results
 	def results
 		require_admin!
