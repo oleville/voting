@@ -1,9 +1,9 @@
 <div class="election-live">
-	<div class="name"><%= @election.name %></div>
+	<div class="contents">
+		<div class="liveness">
+			<%= (@percentage * 100.0).round(3).to_s + '%' %>
+		</div>
 
-	<div class="liveness">
-		<%= @voted_so_far %>
-		<%= @total_users %>
-		<%= @percentage %>
+		<div class="title">In the <%= @election.name %> election</div>
 	</div>
 </div>
