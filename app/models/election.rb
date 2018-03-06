@@ -32,7 +32,7 @@ class Election < ApplicationRecord
 			ballots = position_ballots.map do |ballot|
 				hash = { ballot: ballot, id: id, user_id: ballot.user_id, current_rank: 1 }
 				hash[:votes] = ballot.votes.select do |vote|
-					vote.rank >= 1
+					vote && vote.rank && vote.rank >= 1
 				end
 				hash[:current_vote] = hash[:votes].select do |vote|
 					vote.position_id == position.id
