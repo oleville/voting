@@ -44,7 +44,7 @@
 					<% options = {} %>
 					<% options[:checked] = true if n.nil? %>
 					<%= vote_form.radio_button :rank, n, options %>
-					<%= vote_form.label :rank, n, value: (n || 'abstain') %>
+					<%= vote_form.label :rank, (n && n.ordinalize) || 'abstain', value: n %>
 					<%#= vote_form.select :rank, (0..count).map {|n| n == 0 ? nil : n }.map {|n| n.nil? ? ['', n] : [ n.to_i, n ]} %>
 					<% end %>
 				</div>
