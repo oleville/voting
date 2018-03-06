@@ -40,7 +40,7 @@
 					<% end %>
 				</div>
 				<div class="selector">
-					<% (0..count).map {|n| n == 0 ? nil : n }.map do |n| %>
+					<% (0..count + 1).map {|n| n == 0 ? nil : n }.map do |n| %>
 					<% options = {} %>
 					<% options[:checked] = true if n.nil? %>
 					<%= vote_form.radio_button :rank, n, options %>
@@ -51,6 +51,27 @@
 				<% end %>
 			</div>
 			<% end %>
+
+			<div class="candidate">
+				<%= form.fields_for :write_ins, @ballot.write_ins.build do |vote_form| %>
+				<%= vote_form.hidden_field :user_id, value: current_user.id %>
+				<%= vote_form.hidden_field :position_id, value: position.id %>
+
+				<div class="candidate-name">
+					<%= vote_form.label :name, 'Write-in' %>
+					<%= vote_form.text_field :name %>
+				</div>
+				<div class="selector">
+					<% (0..count + 1).map {|n| n == 0 ? nil : n }.map do |n| %>
+					<% options = {} %>
+					<% options[:checked] = true if n.nil? %>
+					<%= vote_form.radio_button :rank, n, options %>
+					<%= vote_form.label :rank, (n && n.ordinalize) || 'abstain', value: n %>
+					<%#= vote_form.select :rank, (0..count).map {|n| n == 0 ? nil : n }.map {|n| n.nil? ? ['', n] : [ n.to_i, n ]} %>
+					<% end %>
+				</div>
+				<% end %>
+			</div>
 		</div>
 
 	</div>

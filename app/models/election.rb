@@ -25,14 +25,16 @@ class Election < ApplicationRecord
 	end
 
 	def results
-		positions.map do |position|
+		simple_results = positions.map do |position|
 			remaining_candidates = position.candidates
 
 			position_ballots = position.ballots.uniq
 			ballots = position_ballots.map do |ballot|
-				hash = { ballot: ballot, id: id, user_id: ballot.user_id, current_rank: 1 }
+				hash = { ballot: ballot, id: id, user_id: ballot.user_id, current_rank: ballot.votes.sort do |vote_a, vote_b|
+						vote_a.rank <=> vote_b.rank
+					end.first.rank }
 				hash[:votes] = ballot.votes.select do |vote|
-					vote && vote.rank && vote.rank >= 1
+					vote && vote.rank && vote.rank >= hash[:current_rank]
 				end
 				hash[:current_vote] = hash[:votes].select do |vote|
 					vote.position_id == position.id
@@ -70,6 +72,12 @@ class Election < ApplicationRecord
 
 			[position, remaining_candidates[0]]
 		end.to_h
+
+		simple_results.map do |position, candidate|
+			simple_results[position] = { candidate: candidate, write_ins: WriteIn.where(position_id: position.id, rank: 1..Float::INFINITY) }
+		end
+
+		simple_results
 	end
 
 	def has_public_results?
