@@ -27,6 +27,12 @@ class ElectionsController < ApplicationController
 
 	# GET /elections/1/live
 	def live
+		require_login!
+
+		@voted_so_far = @election.ballots.count || 0
+		@total_users = User.count || 1
+
+		@percentage = @voted_so_far.to_f / @total_users.to_f
 	end
 
 	# GET /elections/1/results
