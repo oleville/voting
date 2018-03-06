@@ -20,6 +20,14 @@ body {
 	padding: 8pt;
 }
 
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	background-color: inherit;
+}
+
 @media screen and (min-width: 720px) {
 	body {
 	}
