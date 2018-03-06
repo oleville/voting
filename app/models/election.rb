@@ -78,7 +78,6 @@ class Election < ApplicationRecord
 		simple_results
 	end
 
-
 	def to_s
 		name
 	end
