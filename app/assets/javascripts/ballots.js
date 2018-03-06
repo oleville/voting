@@ -41,4 +41,4 @@ const hooky = () => {
 	})
 }
 
-window.onload = () => { hooky(); }
+window.addEventListener("turbolinks:load", () => { console.log('hook'); hooky(); })
