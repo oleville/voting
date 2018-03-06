@@ -19,7 +19,9 @@ const hooky = () => {
 			}).filter(rank => !!rank)
 
 			selectedRanks.forEach(rank => {
-				[].slice.call(position.querySelectorAll(`[id$=${rank}]`)).forEach(element => { element.disabled = true })
+				[].slice.call(position.querySelectorAll(`[id$=${rank}]`))
+					.filter(element => !element.checked)
+					.forEach(element => { element.disabled = true })
 				disabledRanks.push(rank)
 			})
 
