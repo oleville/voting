@@ -23,6 +23,54 @@ class Election < ApplicationRecord
 			user.positions.where(election_id: id)
 	end
 
+	def results
+		positions.map do |position|
+			remaining_candidates = position.candidates
+
+			position_ballots = position.ballots.uniq
+			ballots = position_ballots.map do |ballot|
+				hash = { ballot: ballot, id: id, user_id: ballot.user_id, current_rank: 1 }
+				hash[:votes] = ballot.votes.select do |vote|
+					vote.rank >= 1
+				end
+				hash[:current_vote] = hash[:votes].select do |vote|
+					vote.position_id == position.id
+					vote.rank == hash[:current_rank]
+				end.first
+
+				hash
+			end
+
+			until remaining_candidates.count <= 1
+				candidate_to_nix = remaining_candidates.sort do |candidate_a, candidate_b|
+					candidate_a_count = ballots.select do |ballot|
+						ballot[:current_vote].candidate == candidate_a
+					end.count
+
+					candidate_b_count = ballots.select do |ballot|
+						ballot[:current_vote].candidate == candidate_b
+					end.count
+
+					candidate_b_count <=> candidate_a_count
+				end.last
+
+				ballots.each do |ballot|
+					ballot[:current_rank] += 1
+					ballot[:current_vote] = ballot[:votes].select do |vote|
+						vote.position_id == position.id
+						vote.rank == ballot[:current_rank]
+					end.first
+				end
+
+				remaining_candidates = remaining_candidates.select do |candidate|
+					candidate != candidate_to_nix
+				end
+			end
+
+			[position, remaining_candidates[0]]
+		end.to_h
+	end
+
 
 	def to_s
 		name

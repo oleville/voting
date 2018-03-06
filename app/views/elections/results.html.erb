@@ -1,2 +1,12 @@
 <% require 'pp' %>
-<%= @results.pretty_inspect %>
+
+<% @results.each do |position, winner| %>
+<div class="winner-section">
+	<div class="position-name"><%= position %></div>
+	<div class="winner-name"><%= winner %></div>
+</div>
+<% end %>
+<pre>
+	<%= @results.pretty_inspect %>
+</pre>
+b

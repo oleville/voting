@@ -33,7 +33,7 @@ class ElectionsController < ApplicationController
 	def results
 		require_admin!
 
-		@results = Election.results
+		@results = @election.results
 	end
 
 	# POST /elections
