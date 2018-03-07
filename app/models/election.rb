@@ -57,7 +57,9 @@ class Election < ApplicationRecord
 					candidate_b_count <=> candidate_a_count
 				end.last
 
-				ballots.each do |ballot|
+				ballots.select do |ballot|
+					ballot[:current_vote].candidate == candidate_to_nix
+				end.each do |ballot|
 					ballot[:current_rank] += 1
 					ballot[:current_vote] = ballot[:votes].select do |vote|
 						vote.position_id == position.id
@@ -74,7 +76,7 @@ class Election < ApplicationRecord
 		end.to_h
 
 		simple_results.map do |position, candidate|
-			simple_results[position] = { candidate: candidate, write_ins: WriteIn.where(position_id: position.id, rank: 1..Float::INFINITY) }
+			simple_results[position] = { candidate: candidate, write_ins: WriteIn.where(position_id: position.id, rank: 1..Float::INFINITY).to_a }
 		end
 
 		simple_results

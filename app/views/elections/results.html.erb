@@ -3,7 +3,8 @@
 <% @results.each do |position, winner| %>
 <div class="winner-section">
 	<div class="position-name"><%= position %></div>
-	<div class="winner-name"><%= winner %></div>
+	<div class="winner-name"><%= winner[:candidate] %></div>
+	<div class="write-ins">Write-ins: <%= winner[:write_ins].map{|wi| wi.name}.join(', ') %>
 </div>
 <% end %>
 <pre>
