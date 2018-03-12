@@ -4,7 +4,7 @@
 <% currently_open = Election.currently_open_to(current_user) %>
 
 <div class="home">
- 	Signed in as <strong><%= current_user.name %></strong>!
+	Signed in as <strong><%= current_user.name %></strong>!
 	<%= link_to "Sign out", logout_path, id: "sign_out" %>
 	<h1>SGA Voting</h1>
 
@@ -37,7 +37,15 @@
 <% else %>
 
 <div class="login">
-	<%= link_to "Sign in with Google", "/auth/google_oauth2", id: "sign_in" %>
+	<h1>SGA Voting</h1>
+	<%= link_to image_tag("google.png"), "/auth/google_oauth2", :class => 'sign_in' %>
+	<p>Please use your St. Olaf Google account when accessing Oleville.</p>
+	<h2 class="faq">What is Ranked-Choice Voting?</h2>
+	<p class="description">Ranked-Choice Voting (RCV) is a method of voting allowing voters to rank multiple candidates in order of preference. RCV combines the primary and the general election into one event. For each position, voters will complete the ballot indicating their first choice for each race in the first column by selecting a ranking for each candidate. If voters wish to rank their second and third choices differently, they will select them in the second and third choices on the ballot.
+	</p>
+	<p class="description">
+	If you choose to vote for only one of the candidates in a position, your vote will only count for that candidate. You may, but are not required to, rank all the candidates for a given position. Your vote for a candidate stays with that candidate through all rounds of counting until that candidate is out, and only then is your vote transferred to your next ranked candidate. When elections close, votes will be totaled by counting every first choice selection. If the candidate who is your first choice has the lowest number of first choice votes, they will be taken out of the race and your vote will be transferred to your second choice. This process continues until a winner is determined.
+	</p>
 </div>
 
 <% end %>
