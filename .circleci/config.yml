@@ -54,7 +54,7 @@ jobs:
           name: "Tag and deploy to to docker.io"
           command: |
             docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:${CIRCLE_BRANCH}
-            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            echo "y" | docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
             docker push oleville/voting:${CIRCLE_BRANCH}
       - run:
           name: 'Dump image to cachable .tar.gz file'
@@ -97,7 +97,7 @@ jobs:
           name: "Tag and deploy to docker.io"
           command: |
             docker tag oleville/voting:${CIRCLE_SHA1} oleville/voting:latest
-            docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
+            echo "y" | docker login -u ${DOCKER_USER} -p ${DOCKER_PASS}
             docker push oleville/voting:latest
       - run:
           name: 'Dump image to cachable .tar.gz file'
